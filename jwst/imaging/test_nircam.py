@@ -1,5 +1,4 @@
 
-
 import os
 
 
@@ -67,6 +66,62 @@ def run_yaml_generator(xml_file, pointing_file, catalogs=None, cosmic_rays=None,
                                          verbose=True, output_dir=None,
                                          simdata_output_dir=None,
                                          datatype='raw'):
+
+
+
+
+
+def test_nircam_imaging():
+      # define a specifc xml_file, pointing_file
+      xml_file = 'imaging_example_data/example_imaging_program.xml'
+      pointing_file = 'imaging_example_data/example_imaging_program.pointing'
+
+
+
+      #call run_yaml_generator() (see function below)
+
+
+      def run_yaml_generator(xml_file, pointing_file, datatype='raw'
+                                        catalogs=None, cosmic_rays=None,
+                                         background=None, roll_angle=None,
+                                         dates=None, reffile_defaults=None,
+                                         verbose=True, output_dir=None,
+                                         simdata_output_dir=None,
+                                         ):
+
+                              yam = yaml_generator.SimInput(input_xml=xml_file, pointing_file=pointing_file,
+                              catalogs=cat_dict, cosmic_rays=cosmic_rays,
+                              background=background, roll_angle=pav3,
+                              dates=dates, reffile_defaults=reffile_defaults,
+                              verbose=True, output_dir=output_dir,
+                              simdata_output_dir=simulation_dir,
+                              datatype=datatype)
+    yam.create_inputs()
+
+    #yfiles = glob(os.path.join(output_dir,'jw*.yaml'))
+
+    return yfiles
+
+    run_yaml_generator()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    """""
+
 
 
 
@@ -2536,3 +2591,4 @@ if __name__ == '__main__':
     args = parser.parse_args(namespace=input)
     input.reffile_setup()
     input.create_inputs()
+""""""
