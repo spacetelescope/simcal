@@ -228,3 +228,48 @@ Show_on_a_log_scale()
 
 
 """
+
+
+
+
+#Test Function
+
+
+def test_nircam_imaging(xml_file, pointing_file):
+
+	if xml_file != 0 and pointing_file != 0:
+
+		return Run_the_yaml_generator()
+		return run_pipeline_stage_1()
+		return run_pipeline_stage_2()
+
+
+
+		for every_rate_file in rate.fits:
+
+
+			for every truth file in truth_files:
+
+				if every rate ==  every_truth_file:
+
+					return true
+
+				else:
+
+					return  -1
+
+
+	   	for every_cal_file in cal.file:
+
+	   		for every_truth_file in truth_files:
+
+	   			if every_cal_file == truth_file:
+
+	   				return true
+
+	   			else:
+
+	   				return -1
+
+
+test_nircam_imaging()
