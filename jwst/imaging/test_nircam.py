@@ -15,8 +15,7 @@ from glob import glob
 from scipy.stats import sigmaclip
 import numpy as np
 from astropy.io import fits
-import matplotlib.pyplot as plt
-get_ipython().run_line_magic('matplotlib', 'inline')
+
 
 
 
@@ -41,7 +40,7 @@ pav3 = 12.5
 dates = '2022-10-31'
 output_dir = './imaging_example_data/'
 simulation_dir = './imaging_example_data/'
-datatype = 'linear, raw'
+datatype = 'raw'
 
 # Run the yaml generator
 
