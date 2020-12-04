@@ -1,26 +1,17 @@
 
 import os
-
-
 os.environ["MIRAGE_DATA"] = "/ifs/jwst/wit/mirage_data/"
 os.environ["CRDS_DATA"] = "/Users/snweke/mirage/crds_cache"
 os.environ["CRDS_SERVER_URL"] = "https://jwst-crds.stsci.edu"
 
 
 
-
-
-# For examining outputs
 from glob import glob
 from scipy.stats import sigmaclip
 import numpy as np
 from astropy.io import fits
 
 
-
-
-
-# mirage imports
 from mirage import imaging_simulator
 from mirage.seed_image import catalog_seed_image
 from mirage.dark import dark_prep
@@ -30,245 +21,109 @@ from mirage.yaml import yaml_generator
 
 
 
-xml_file = 'imaging_example_data/example_imaging_program.xml'
-pointing_file = 'imaging_example_data/example_imaging_program.pointing'
-cat_dict = {'GOODS-S-FIELD': {'point_source':'imaging_example_data/ptsrc_catalog.cat'}}
-reffile_defaults = 'crds'
+catalogs = {'GOODS-S-FIELD': {'point_source':'imaging_example_data/ptsrc_catalog.cat'}}
 cosmic_rays = {'library': 'SUNMAX', 'scale': 1.0}
-background = 'medium'
-pav3 = 12.5
-dates = '2022-10-31'
-output_dir = './imaging_example_data/'
-simulation_dir = './imaging_example_data/'
-datatype = 'raw'
+background='medium'
+roll_angle=pav3
+dates=dates
+reffile_defaults=reffile_defaults
+verbose=True
+output_dir=output_dir
+simdata_output_dir=simulation_dir
+datatype=datatype
 
-# Run the yaml generator
 
-def Run_the_yaml_generator( yam = yaml_generator.SimInput(input_xml=xml_file, pointing_file=pointing_file,
+
+def test_nircam_imaging():
+      # - define a specifc xml_file, pointing_file
+     xml_file = 'imaging_example_data/example_imaging_program.xml'
+     pointing_file = 'imaging_example_data/example_imaging_program.pointing'
+     #call run_yaml_generator() (see function below)
+     yfiles = run_yaml_generator(xml_file, pointing_file, catalogs=None, cosmic_rays=None,
+                                         background=None, roll_angle=None,
+                                         dates=None, reffile_defaults=None,
+                                         verbose=True, output_dir=None,
+                                         simdata_output_dir=None,
+                                         datatype='raw')
+
+      #1- call create_simulations() (see function below)
+      uncal_files = create_simulations(yfiles)
+      # run the calwebb_detector1 pipeline
+      rate_files = [ ]
+      for fname in uncal_files:
+          result = Detector1Pipeline.call(fname)
+          rate_files.append(result)
+          result.save(result.meta.filename +".fits")
+
+      # - run the calwebb_image2 pipeline
+      #- compare the rate files to truth files
+     #- compare the cal files to truth files
+
+
+
+
+
+
+
+def run_yaml_generator(xml_file, pointing_file, catalogs=None, cosmic_rays=None,
+                                         background=None, roll_angle=None,
+                                         dates=None, reffile_defaults=None,
+                                         verbose=True, output_dir=None,
+                                         simdata_output_dir=None,
+                                         datatype='raw'):
+    yam = yaml_generator.SimInput(input_xml=xml_file, pointing_file=pointing_file,
                               catalogs=cat_dict, cosmic_rays=cosmic_rays,
                               background=background, roll_angle=pav3,
                               dates=dates, reffile_defaults=reffile_defaults,
                               verbose=True, output_dir=output_dir,
                               simdata_output_dir=simulation_dir,
-                              datatype=datatype))
-yam.create_inputs()
+                              datatype=datatype)
+    yam.create_inputs()
+    yfiles = glob(os.path.join(output_dir,'jw*.yaml'))
+    return yfiles
 
 
 
-	def Create_simulated_data(yamlfile):
 
 
- 	#yfiles = glob(os.path.join(output_dir,'jw*.yaml'))
- 		yamlfile = 'imaging_example_data/jw42424001001_01101_00001_nrcb1.yaml'
 
- 		for file in yamlfile:
- 			img_sim = imaging_simulator.ImgSim()
- 			img_sim.paramfile = yamlfile
- 			img_sim.create()
+def create_simulations(input_yaml_files):
 
- 		return  _uncal.fits
+     for fname in input_yaml_files:
+           img_sim = imaging_simulator.ImgSim()
+           img_sim.paramfile = yamlfile
+           img_sim.create()
+    # runs `ImgSim` on the input YAML files
+    # return all `_uncal.fits` file
+     uncal_files = glob("*_uncal.fits")
+    return uncal_files
 
 
-	Create_simulated_data()
 
 
+    # We want try out the test functions
 
-Run_the_yaml_generator()
+def run_yaml_generator(xml_file):
+	"""" This is to Generate Mirage XML files from APT XML files """
+	print(f"DEBUG: my file is {xml_file}")
 
 
 
-"""
+def create_simulations(input_yaml_files):
+	""" Create simulations using Mirage """
 
+	pass
 
-def Examine_the_output():
+def test_nircam_mirage_pipeline():
 
-	def show(array,title,min=0,max=1000):
-   		 	plt.figure(figsize=(12,12))
-   		 	plt.imshow(array,clim=(min,max))
-  		 	plt.title(title)
-   			plt.colorbar().set_label('DN$^{-}$/s'):
+	file_xml = os.path.join(
+		os.path.dirname(__file__), "data/file.xml"
+		)
 
+	assert os.path.exists(file_xml)
+	create_simulations(["foo", "bar"])
+	run_yaml_generator(file_xml)
 
 
-		show(img_sim.seedimage,'Seed Image',max=20):
-
-
-Examine_the_output()
-
-
-
-
-
-
- def Examine_linear_output():
-
-    lin_file = 'imaging_example_data/jw42424001001_01101_00001_nrcb1_linear.fits'
-	with fits.open(lin_file) as hdulist:
-    	linear_data = hdulist['SCI'].data
-	print(linear_data.shape)
-
-	show(linear_data[0, 3, :, :], "Final Group", max=250)
-
-Examine_linear_output()
-
-
-
-
-
-
-def Examine_the_raw_output(raw_file = 'imaging_example_data/jw42424001001_01101_00001_nrcb1_uncal.fits'):
-
-	with fits.open(raw_file) as hdulist:
-		raw_data = hdulist['SCI'].data
-	print(raw_data.shape)
-
-
-	show(raw_data[0, 3, :, :], "Final Group", max=15000)
-
-	show(1. * raw_data[0, 3, :, :] - 1. * raw_data[0, 0, :, :], "Last Minus First Group", max=200)
-
-
-Examine_the_raw_output()
-
-
-"""
-
-
-
-
-
-#Stage 1
-def run_pipeline_stage_1("*uncal.fits"):
-
-  def generate_the_seed_image():
-  	cat = catalog_seed_image.Catalog_seed()
-	cat.paramfile = yamlfile
-	cat.make_seed()
-
-
-	#show(cat.seedimage,'Seed Image',max=20)
-	return rate.fits
-
-	generate_the_seed_image()
-
-run_pipeline_stage_1()
-
-
-
-#Stage 2
-def run_pipeline_stage_2("*uncal.fits"):
-
-
-	def Prepare_the_dark_current_exposure():
-
-		d = dark_prep.DarkPrep()
-		d.paramfile = yamlfile
-		d.prepare()
-
-		exptime = d.linDark.header['NGROUPS'] * cat.frametime
-		diff = (d.linDark.data[0,-1,:,:] - d.linDark.data[0,0,:,:]) / exptime
-		show(diff,'Dark Current Countrate',max=0.1)
-
-
-	Prepare_the_dark_current_exposure()
-
-
-
-
-
-	def Create_the_final_exposure():
-
-		obs = obs_generator.Observation()
-		obs.linDark = d.prepDark
-		obs.seed = cat.seedimage
-		obs.segmap = cat.seed_segmap
-		obs.seedheader = cat.seedinfo
-		obs.paramfile = yamlfile
-		obs.create()
-
-
-
-		with fits.open(obs.linear_output) as h:
-    		lindata = h[1].data
-    	header = h[0].header
-
-
-    	return rate.fits
-
-
-
- 	Create_the_final_exposure()
-
-
-def run_pipeline_stage_2():
-
-
-
-"""
-
-def Show_on_a_log_scale():
-
-	exptime = header['EFFINTTM']
-	diffdata = (lindata[0,-1,:,:] - lindata[0,0,:,:]) / exptime
-	show(diffdata,'Simulated Data',min=0,max=20)
-
-
-
-	offset = 2.
-	plt.figure(figsize=(12,12))
-	plt.imshow(np.log10(diffdata+offset),clim=(0.001,np.log10(80)))
-	plt.title('Simulated Data')
-	plt.colorbar().set_label('DN$^{-}$/s')
-
-
-
-
-Show_on_a_log_scale()
-
-
-"""
-
-
-
-
-#Test Function
-
-
-def test_nircam_imaging(xml_file, pointing_file):
-
-	if xml_file != 0 and pointing_file != 0:
-
-		return Run_the_yaml_generator()
-		return run_pipeline_stage_1()
-		return run_pipeline_stage_2()
-
-
-
-		for every_rate_file in rate.fits:
-
-
-			for every truth file in truth_files:
-
-				if every rate ==  every_truth_file:
-
-					return true
-
-				else:
-
-					return  -1
-
-
-	   	for every_cal_file in cal.file:
-
-	   		for every_truth_file in truth_files:
-
-	   			if every_cal_file == truth_file:
-
-	   				return true
-
-	   			else:
-
-	   				return -1
-
-
-test_nircam_imaging()
+def test_mirage_pipeline():
+	pass
