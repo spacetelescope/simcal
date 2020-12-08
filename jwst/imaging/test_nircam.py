@@ -1,24 +1,23 @@
 
 import os
+from jwst.pipeline import Detector1Pipeline
 os.environ["MIRAGE_DATA"] = "/ifs/jwst/wit/mirage_data/"
 os.environ["CRDS_DATA"] = "/Users/snweke/mirage/crds_cache"
 os.environ["CRDS_SERVER_URL"] = "https://jwst-crds.stsci.edu"
 
 
 
-
-from jwst.pipeline import Detector1Pipeline
-
 catalogs = {'GOODS-S-FIELD': {'point_source':'imaging_example_data/ptsrc_catalog.cat'}}
-cosmic_rays = {'library': 'SUNMAX', 'scale': 1.0}
-background='medium'
-roll_angle=pav3
-dates= '2022-10-31'
-reffile_defaults= 'crds'
-verbose=True
-output_dir=output_dir
-simdata_output_dir=simdata_output_dir
-datatype=datatype
+cosmic_rays = {'library': 'SUNMAX', 'scale':  1.0}
+background = 'medium'
+roll_angle = pav3
+dates = '2022-10-31'
+reffile_defaults = 'crds'
+verbose = True
+output_dir = './imaging_example_data/'
+#simdata_output_dir=simdata_output_dir
+simulation_dir --> simdata_output_dir
+datatype = 'raw'
 
 
 def test_nircam_imaging():
@@ -29,8 +28,8 @@ def test_nircam_imaging():
      yfiles = run_yaml_generator(xml_file, pointing_file, catalogs=None, cosmic_rays=None,
                                          background=None, roll_angle=None,
                                          dates='2022-10-31', reffile_defaults = 'crds',
-                                         verbose=True, output_dir=None,
-                                         simdata_output_dir=None,
+                                         verbose=True, output_dir= './imaging_example_data/',
+                                         simulation_dir --> simdata_output_dir,
                                          datatype='raw')
 
       #1- call create_simulations() (see function below)
@@ -42,9 +41,13 @@ def test_nircam_imaging():
           rate_files.append(result)
           result.save(result.meta.filename +".fits")
 
-# -run the calwebb_image2 pipeline
-# -compare the rate files to truth files
-# -compare the cal files to truth files
+      # - run the calwebb_image2 pipeline
+      #- compare the rate files to truth files
+     #- compare the cal files to truth files
+
+#dates = '2022-10-31'
+#reffile_defaults = 'crds'
+
 
 
 
@@ -52,15 +55,15 @@ def test_nircam_imaging():
 def run_yaml_generator(xml_file, pointing_file, catalogs=None, cosmic_rays=None,
                                          background=None, roll_angle=None,
                                          dates=None, reffile_defaults = 'crds',
-                                         verbose=True, output_dir=None,
+                                         verbose=True, ,
                                          simdata_output_dir=None,
                                          datatype='raw'):
     yam = yaml_generator.SimInput(input_xml=xml_file, pointing_file=pointing_file,
                               catalogs=catalogs, cosmic_rays=cosmic_rays,
                               background=background, roll_angle=pav3,
                               dates=dates, reffile_defaults = 'crds',
-                              verbose=True, output_dir=output_dir,
-                              simdata_output_dir= simdata_output_dir
+                              verbose=True, output_dir= './imaging_example_data/',
+                              simulation_dir --> simdata_output_dir
 
 
 
@@ -90,7 +93,7 @@ def create_simulations(input_yaml_files):
 
 
 
-# We want try out the test functions
+    # We want try out the test functions
 
 def run_yaml_generator(xml_file):
 	"""" This is to Generate Mirage XML files from APT XML files """
