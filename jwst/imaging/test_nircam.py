@@ -7,21 +7,22 @@ os.environ["CRDS_SERVER_URL"] = "https://jwst-crds.stsci.edu"
 
 
 
-catalogs = {'GOODS-S-FIELD': {'point_source':'imaging_example_data/ptsrc_catalog.cat'}}
-cosmic_rays = {'library': 'SUNMAX', 'scale':  1.0}
+catalogs = {'GOODS-S-FIELD':
+            {'point_source':'imaging_example_data/ptsrc_catalog.cat'}}
+cosmic_rays = {'library':'SUNMAX','scale':1.0}
 background = 'medium'
 roll_angle = pav3
 dates = '2022-10-31'
 reffile_defaults = 'crds'
 verbose = True
 output_dir = './imaging_example_data/'
-#simdata_output_dir=simdata_output_dir
-simulation_dir --> simdata_output_dir
+simulation_dir -- > simdata_output_dir
 datatype = 'raw'
 
 
+
 def test_nircam_imaging():
-      # - define a specifc xml_file, pointing_file
+     # - define a specifc xml_file, pointing_file
      xml_file = 'imaging_example_data/example_imaging_program.xml'
      pointing_file = 'imaging_example_data/example_imaging_program.pointing'
      #call run_yaml_generator() (see function below)
@@ -41,14 +42,9 @@ def test_nircam_imaging():
           rate_files.append(result)
           result.save(result.meta.filename +".fits")
 
-      # - run the calwebb_image2 pipeline
-      #- compare the rate files to truth files
-     #- compare the cal files to truth files
-
-#dates = '2022-10-31'
-#reffile_defaults = 'crds'
-
-
+#run the calwebb_image2 pipeline
+#compare the rate files to truth files
+#compare the cal files to truth files
 
 
 
