@@ -93,4 +93,20 @@ def create_simulations(input_yaml_files):
     return uncal_files
 
 
-        # We want try out the test functions
+
+# Write functions which run
+# The first two stages of the pipeline and produces
+# The _rate.fits and _cal.fits files.
+def run_pipeline_stage_1(*uncal_fits):
+    return *uncal_fits
+
+
+def test_nircam_imaging(xml_file, pointing_file):
+
+
+     for rate_files in truth_files:
+        for cal_files in truth_files:
+		   if rate_files == cal_files:
+
+	 run_yaml_generator()
+	 create_simulations()
