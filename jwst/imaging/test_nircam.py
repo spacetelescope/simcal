@@ -1,6 +1,11 @@
 import os
-#from jwst.pipeline import Detector1Pipeline
-from mirage.yaml import yaml_generator
+from glob import glob
+
+from mirage import imaging_simulator
+from jwst.pipeline import Detector1Pipeline
+from jwst.datamodels import RampModel
+import pytest
+
 os.environ["MIRAGE_DATA"] = "/ifs/jwst/wit/mirage_data/"
 os.environ["CRDS_DATA"] = "/Users/snweke/mirage/crds_cache"
 os.environ["CRDS_SERVER_URL"] = "https: //jwst-crds.stsci.edu"
@@ -97,16 +102,3 @@ def create_simulations(input_yaml_files):
 # Write functions which run
 # The first two stages of the pipeline and produces
 # The _rate.fits and _cal.fits files.
-def run_pipeline_stage_1(*uncal_fits):
-    return *uncal_fits
-
-
-def test_nircam_imaging(xml_file, pointing_file):
-
-
-     for rate_files in truth_files:
-        for cal_files in truth_files:
-		   if rate_files == cal_files:
-
-	 run_yaml_generator()
-	 create_simulations()
