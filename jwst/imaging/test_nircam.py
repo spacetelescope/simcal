@@ -3,7 +3,7 @@ from glob import glob
 
 from mirage import imaging_simulator
 from jwst.pipeline import Detector1Pipeline
-from jwst.datamodels import RampModel
+from toolkit.interface import interface
 import pytest
 
 os.environ["MIRAGE_DATA"] = "/ifs/jwst/wit/mirage_data/"
