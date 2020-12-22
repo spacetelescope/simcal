@@ -1,0 +1,37 @@
+2020-12-17 12:04:42,743 - mirage.yaml.yaml_generator - INFO - Running yaml_generator....
+
+2020-12-17 12:04:42,744 - mirage.yaml.yaml_generator - INFO - using APT xml file: imaging_example_data/example_imaging_program.xml
+
+2020-12-17 12:04:42,744 - mirage.yaml.yaml_generator - INFO - Original log file name: ./mirage_latest.log
+2020-12-17 12:04:42,744 - mirage.reference_files.crds_tools.path_check - INFO - CRDS_PATH environment variable not set. Setting to /Users/snweke/crds_cache
+2020-12-17 12:04:42,758 - mirage.apt.read_apt_xml - INFO - Running read_apt_xml....
+
+2020-12-17 12:04:42,759 - mirage.apt.read_apt_xml - INFO - target_info:
+2020-12-17 12:04:42,759 - mirage.apt.read_apt_xml - INFO - {'GOODS-S-FIELD': ('03:32:24.0000', '-27:48:0.00')}
+2020-12-17 12:04:42,759 - mirage.apt.read_apt_xml - INFO - ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2020-12-17 12:04:42,760 - mirage.apt.read_apt_xml - INFO - Observation `001` labelled `F115W_F356W` uses template `NircamImaging`
+2020-12-17 12:04:42,760 - mirage.apt.read_apt_xml - INFO - APTObservationParams Dictionary holds 0 entries before reading template
+2020-12-17 12:04:42,760 - mirage.apt.read_apt_xml - INFO - Number of dithers: 2 primary * 2 subpixel = 4
+2020-12-17 12:04:42,760 - mirage.apt.read_apt_xml - INFO - Dictionary read from template has 1 entries.
+2020-12-17 12:04:42,761 - mirage.apt.read_apt_xml - INFO - Found 1 tile(s) for observation 001 F115W_F356W
+2020-12-17 12:04:42,761 - mirage.apt.read_apt_xml - INFO - Found 1 visits with numbers: [1]
+2020-12-17 12:04:42,761 - mirage.apt.read_apt_xml - INFO - APTObservationParams Dictionary holds 1 entries after reading template (+1 entries)
+2020-12-17 12:04:42,761 - mirage.apt.read_apt_xml - INFO - Finished reading APT xml file.
+2020-12-17 12:04:42,761 - mirage.apt.read_apt_xml - INFO - ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+2020-12-17 12:04:42,802 - mirage.yaml.generate_observationlist.expand_for_dithers - INFO - Number of entries before expanding dithers: 1
+2020-12-17 12:04:42,802 - mirage.yaml.generate_observationlist.expand_for_dithers - INFO - Number of entries after expanding dithers:  4
+2020-12-17 12:04:42,802 - mirage.yaml.generate_observationlist.expand_for_dithers - INFO - Expanded table for Observation 001 has 4 entries
+2020-12-17 12:04:42,804 - mirage.yaml.generate_observationlist.get_observation_dict - INFO - Wrote 1 observations and 4 entries to /Users/snweke/simcal/jwst/imaging/imaging_example_data/observation_list.yaml
+2020-12-17 12:04:43,725 - mirage.apt.apt_inputs - INFO - csv exposure list written to /Users/snweke/simcal/jwst/imaging/imaging_example_data/Observation_table_for_example_imaging_program.csv
+2020-12-17 12:04:49,115 - mirage.yaml.yaml_generator - INFO - No PSF path provided. Using default path as PSF path for all yamls.
+2020-12-17 12:04:49,147 - mirage.yaml.yaml_generator - INFO - Updated observation table file saved to /Users/snweke/simcal/jwst/imaging/imaging_example_data/Observation_table_for_example_imaging_program.xml_with_yaml_parameters.csv
+2020-12-17 12:04:49,156 - mirage.yaml.yaml_generator - INFO - 
+
+2020-12-17 12:04:49,157 - mirage.yaml.yaml_generator - INFO - Observation 001:
+2020-12-17 12:04:49,157 - mirage.yaml.yaml_generator - INFO -     Prime: NIRCAM
+2020-12-17 12:04:49,157 - mirage.yaml.yaml_generator - INFO -     1 visit(s)
+2020-12-17 12:04:49,157 - mirage.yaml.yaml_generator - INFO -     4 activity(ies)
+2020-12-17 12:04:49,157 - mirage.yaml.yaml_generator - INFO -     5 NIRCam detector(s) in module B
+2020-12-17 12:04:49,157 - mirage.yaml.yaml_generator - INFO -     20 file(s)
+2020-12-17 12:04:49,157 - mirage.yaml.yaml_generator - INFO - 20 output files written to: /Users/snweke/simcal/jwst/imaging/imaging_example_data
+2020-12-17 12:04:49,157 - mirage.yaml.yaml_generator - INFO - Yaml generator complete
