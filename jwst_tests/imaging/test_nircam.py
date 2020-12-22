@@ -42,7 +42,7 @@ def test_nircam_imaging():
                                 datatype= datatype)
 
 
-    uncal_files = create_simulations(yfiles)
+    uncal_files = create_simulations(yfiles, output_dir)
     rate_files = [ ]
 
     for fname in uncal_files:
@@ -90,7 +90,7 @@ def run_yaml_generator(xml_file,
 
 
 
-def create_simulations(input_yaml_files):
+def create_simulations(input_yaml_files, output_dir):
     for fname in input_yaml_files:
         img_sim = imaging_simulator.ImgSim()
         #img_sim.paramfile = yamlfile
