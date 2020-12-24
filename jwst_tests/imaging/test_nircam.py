@@ -4,6 +4,7 @@ from glob import glob
 from mirage import imaging_simulator
 from mirage.yaml import yaml_generator
 from jwst.pipeline import Detector1Pipeline
+from jwst.pipeline import Image2Pipeline
 import pytest
 
 os.environ["MIRAGE_DATA"] = "/ifs/jwst/wit/mirage_data/"
@@ -38,25 +39,31 @@ def test_nircam_imaging():
                                 reffile_defaults= reffile_defaults,
                                 verbose= verbose,
                                 output_dir= output_dir,
-                                simdata_output_dir= simulation_dir,
+                                simdata_output_dir= output_dir,
                                 datatype= datatype)
 
 
     uncal_files = create_simulations(yfiles, output_dir)
+    print('\n\n uncal files', uncal_files,'\n\n')
     rate_files = [ ]
 
     for fname in uncal_files:
         result = Detector1Pipeline.call(fname)
         rate_files.append(result)
-        result.save(result.meta.filename +".fits")
         name = result.meta.filename.split("uncal.fits")[0]+'rate.fits'
+        print('\n\nname', os.path.join(output_dir, name), '\n\n')
         result.save(os.path.join(output_dir, name))
 
+    for fname in rate_files:
+        stage2_result = Image2Pipeline.call(fname)
+        name = stage2_result.meta.filename.split("rate.fits")[0]+'cal.fits')
+        stage2_result.save((os.path.join(output_dir, name))
 
 
-#run the calwebb_image2 pipeline
-#compare the rate files to truth files
-#compare the cal files to truth files
+
+# run the calwebb_image2 pipeline
+# compare the rate files to truth files
+# compare the cal files to truth files
 def run_yaml_generator(xml_file,
                        pointing_file,
                        catalogs,
