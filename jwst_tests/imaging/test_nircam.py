@@ -44,7 +44,7 @@ def test_nircam_imaging():
 
 
     uncal_files = create_simulations(yfiles, output_dir)
-    print('\n\n uncal files', uncal_files,'\n\n')
+    print('\n\n uncal files', uncal_files, '\n\n')
     rate_files = [ ]
 
     for fname in uncal_files:
@@ -55,15 +55,15 @@ def test_nircam_imaging():
         result.save(os.path.join(output_dir, name))
 
     for fname in rate_files:
-        stage2_result = Image2Pipeline.call(fname)
-        name = stage2_result.meta.filename.split("rate.fits")[0]+'cal.fits')
-        stage2_result.save((os.path.join(output_dir, name))
+        stage2_result = Image2Pipeline.call(fname)[0]
+        name = stage2_result.meta.filename.split("rate.fits")[0]+'cal.fits'
+        stage2_result.save(os.path.join(output_dir, name))
 
 
 
-# run the calwebb_image2 pipeline
-# compare the rate files to truth files
-# compare the cal files to truth files
+#run the calwebb_image2 pipeline
+#compare the rate files to truth files
+#compare the cal files to truth files
 def run_yaml_generator(xml_file,
                        pointing_file,
                        catalogs,
@@ -90,20 +90,16 @@ def run_yaml_generator(xml_file,
                                       simdata_output_dir= simdata_output_dir,
                                       datatype= datatype)
     yam.create_inputs()
-    yfiles = glob(os.path.join(output_dir,'jw*.yaml'))
+    yfiles = glob(os.path.join(output_dir, 'jw*.yaml'))
     return yfiles
-
-
-
-
 
 def create_simulations(input_yaml_files, output_dir):
     for fname in input_yaml_files:
         img_sim = imaging_simulator.ImgSim()
-        #img_sim.paramfile = yamlfile
+        # img_sim.paramfile = yamlfile
         img_sim.paramfile = fname
         img_sim.create()
         # runs `ImgSim` on the input YAML files
         # return all `_uncal.fits` file
-    uncal_files = glob(os.path.join(output_dir,"*_uncal.fits"))
+    uncal_files = glob(os.path.join(output_dir, "*_uncal.fits"))
     return uncal_files
