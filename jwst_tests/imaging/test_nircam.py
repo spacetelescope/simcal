@@ -5,7 +5,11 @@ from mirage import imaging_simulator
 from mirage.yaml import yaml_generator
 from jwst.pipeline import Detector1Pipeline
 from jwst.pipeline import Image2Pipeline
+
 import pytest
+from astropy.io.fits.diff import FITSDiff
+
+
 
 os.environ["MIRAGE_DATA"] = "/ifs/jwst/wit/mirage_data/"
 os.environ["CRDS_DATA"] = "/Users/snweke/mirage/crds_cache"
@@ -56,8 +60,23 @@ def test_nircam_imaging():
 
     for fname in rate_files:
         stage2_result = Image2Pipeline.call(fname)[0]
-        name = stage2_result.meta.filename.split("rate.fits")[0]+'cal.fits'
+        name = stage2_result.meta.filename
         stage2_result.save(os.path.join(output_dir, name))
+
+    truth_files = glob(os.path.join('truth', '*.fits'))
+
+
+
+
+def _assert_is_same(output_file, truth_file, **fitsdiff_default_kwargs):
+
+
+    diff = FITSDiff(output_file, truth_file, **fitsdiff_default_kwargs)
+    assert diff.identical, diff.report()
+
+
+
+
 
 
 
