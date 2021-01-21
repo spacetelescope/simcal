@@ -139,7 +139,8 @@ dmypy.json
 cython_debug/
 
 # setuptools-scm generated module
-src/simcal/_version.py
+simcal/_version.py
+
 
 # auto-generated API docs
 docs/source/api
