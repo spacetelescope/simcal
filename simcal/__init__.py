@@ -1,3 +1,3 @@
-# from .model_base import simcal
+from . import _version
 
 __version__ = _version.version
