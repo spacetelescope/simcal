@@ -32,7 +32,7 @@ simulation_dir= './imaging_example_data/'
 datatype= 'raw'
 
 
-def test_nircam_imaging():
+def test_nircam_imaging(_jail):
     yfiles = run_yaml_generator(xml_file= xml_file,
                                 pointing_file= pointing_file,
                                 catalogs= catalogs,
