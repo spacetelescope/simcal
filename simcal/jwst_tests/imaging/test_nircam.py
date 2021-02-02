@@ -1,4 +1,5 @@
 import os
+
 from glob import glob
 
 from mirage import imaging_simulator
@@ -14,24 +15,11 @@ from astropy.io.fits.diff import FITSDiff
 os.environ["MIRAGE_DATA"] = "/ifs/jwst/wit/mirage_data/"
 os.environ["CRDS_DATA"] = "/Users/snweke/mirage/crds_cache"
 os.environ["CRDS_SERVER_URL"] = "https: //jwst-crds.stsci.edu"
-
-#os.environ["MIRAGE_DATA"] = __location__
-#os.environ["CRDS_PATH"] = os.path.join(__location__, "temp")
+os.environ["INPUT_DATA"] = "/Users/snweke/input_data"
 
 
-__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+xml_file= os.path.join(os.environ['INPUT_DATA'],'imaging_example_data/example_imaging_program.xml')
 
-os.environ["MIRAGE_DATA"] = __location__
-os.environ["CRDS_DATA"] = os.path.join(__location__, "temp")
-
-# Clean up
-# temp_output_dir = os.path.join(__location__, "temp")
-# os.system('rm -r {}'.format(temp_output_dir))
-
-
-
-
-xml_file= 'imaging_example_data/example_imaging_program.xml'
 pointing_file= 'imaging_example_data/example_imaging_program.pointing'
 catalogs= {'GOODS-S-FIELD':
            {'point_source':  'imaging_example_data/ptsrc_catalog.cat'}}
@@ -45,14 +33,6 @@ verbose= True
 output_dir= './output_imaging_data/'
 simulation_dir= './imaging_example_data/'
 datatype= 'raw'
-
-
-# Make an instance of the SimInput class
-# input_xml = os.path.join(__location__, 'test_data/misc/12345/12345_nircam_imaging_prime_niriss_wfss_parallel.xml')
-# pointing_file = os.path.join(__location__, 'test_data/misc/12345/12345_nircam_imaging_prime_niriss_wfss_parallel.pointing')
-# temp_output_dir = os.path.join(__location__, "temp")
-
-
 
 
 def test_nircam_imaging(_jail):
@@ -96,10 +76,6 @@ def _assert_is_same(output_file, truth_file, **fitsdiff_default_kwargs):
 
     diff = FITSDiff(output_file, truth_file, **fitsdiff_default_kwargs)
     assert diff.identical, diff.report()
-
-
-
-
 
 
 
