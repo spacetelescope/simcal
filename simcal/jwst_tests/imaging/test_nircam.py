@@ -18,7 +18,7 @@ os.environ["CRDS_SERVER_URL"] = "https: //jwst-crds.stsci.edu"
 os.environ["INPUT_DATA"] = "/Users/snweke/input_data"
 
 
-xml_file= os.path.join(os.environ['INPUT_DATA'],'imaging_example_data/example_imaging_program.xml')
+xml_file= os.path.join(os.environ["INPUT_DATA"],'imaging_example_data/example_imaging_program.xml')
 
 pointing_file= 'imaging_example_data/example_imaging_program.pointing'
 catalogs= {'GOODS-S-FIELD':
@@ -35,7 +35,9 @@ simulation_dir= './imaging_example_data/'
 datatype= 'raw'
 
 
-def test_nircam_imaging(_jail):
+
+# @pytest.fixture(scope= 'function')
+def test_nircam_imaging(envopt, request, _jail):
     yfiles = run_yaml_generator(xml_file= xml_file,
                                 pointing_file= pointing_file,
                                 catalogs= catalogs,
