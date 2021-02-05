@@ -37,7 +37,7 @@ datatype= 'raw'
 
 
 # @pytest.fixture(scope= 'function')
-def test_nircam_imaging(envopt, request, _jail):
+def test_nircam_imaging(envopt, request, _jail, tmp_path):
     yfiles = run_yaml_generator(xml_file= xml_file,
                                 pointing_file= pointing_file,
                                 catalogs= catalogs,
@@ -51,7 +51,10 @@ def test_nircam_imaging(envopt, request, _jail):
                                 simdata_output_dir= output_dir,
                                 datatype= datatype)
 
-
+    os.chdir(tmp_path)
+    create_file()
+    assert os.path.isfile(pointing_file)
+    
     uncal_files = create_simulations(yfiles, output_dir)
     print('\n\n uncal files', uncal_files, '\n\n')
     rate_files = [ ]
