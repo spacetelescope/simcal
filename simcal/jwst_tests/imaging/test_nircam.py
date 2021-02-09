@@ -12,7 +12,8 @@ from astropy.io.fits.diff import FITSDiff
 
 
 INPUT_ROOT = os.getenv("SIMCAL_INPUT")
-xml_file= os.path.join(INPUT_ROOT, "example_imaging_program.xml")
+xml_file= os.path.join(INPUT_ROOT, "/input_data/imaging_example_data/example_imaging_program.xml")
+
 pointing_file= 'imaging_example_data/example_imaging_program.pointing'
 catalogs= {'GOODS-S-FIELD':
            {'point_source':  'imaging_example_data/ptsrc_catalog.cat'}}
