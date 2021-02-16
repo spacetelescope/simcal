@@ -11,10 +11,13 @@ import pytest
 from astropy.io.fits.diff import FITSDiff
 
 
-INPUT_ROOT = os.getenv("SIMCAL_INPUT")
+INPUT_ROOT= os.getenv("SIMCAL_INPUT")
+
 xml_file= os.path.join(INPUT_ROOT, "imaging_example_data/example_imaging_program.xml")
-print(xml_file, INPUT_ROOT)
+
+
 pointing_file= os.path.join(INPUT_ROOT, "imaging_example_data/example_imaging_program.pointing")
+
 catalogs= {'GOODS-S-FIELD':
            {'point_source': os.path.join(INPUT_ROOT, 'imaging_example_data/ptsrc_catalog.cat')}}
 cosmic_rays= {'library':  'SUNMAX', 'scale': 1.0}
@@ -24,8 +27,10 @@ roll_angle= pav3
 dates= '2022-10-31'
 reffile_defaults= 'crds'
 verbose= True
-output_dir= './output_imaging_data/'
+output_dir= '.'
 datatype= 'raw'
+
+
 
 
 
