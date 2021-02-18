@@ -1,3 +1,7 @@
+
+
+
+
 // [skip ci] and [ci skip] have no effect here.
 if (utils.scm_checkout(['skip_disable':true])) return
 
@@ -37,10 +41,10 @@ withCredentials([string(
     credentialsId: 'jwst-codecov',
     variable: 'codecov_token')]) {
 
-jobconfig = new JobConfig()
-jobconfig.enable_env_publication = true
-jobconfig.publish_env_on_success_only = true
-jobconfig.publish_env_filter = "spacetelescope/master"
+// jobconfig = new JobConfig()
+// jobconfig.enable_env_publication = true
+// jobconfig.publish_env_on_success_only = true
+// jobconfig.publish_env_filter = "spacetelescope/master"
 
 // Define python version for conda
 python_version = "3.8"

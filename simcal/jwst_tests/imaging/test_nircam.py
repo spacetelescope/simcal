@@ -27,12 +27,13 @@ roll_angle= pav3
 dates= '2022-10-31'
 reffile_defaults= 'crds'
 verbose= True
+#output_dir= '.'
 output_dir= './output_imaging_data/'
 simulation_dir= './imaging_example_data/'
 datatype= 'raw'
 
 
-def test_nircam_imaging():
+def test_nircam_imaging(_jail):
     yfiles = run_yaml_generator(xml_file= xml_file,
                                 pointing_file= pointing_file,
                                 catalogs= catalogs,
