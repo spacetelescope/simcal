@@ -17,11 +17,18 @@ pipeline {
             steps {
                 deleteDir()
                 checkout scm
-           //   sh "mvn install"
+        //      sh "mvn install"
                 sh("mkdir -p tmp")
-                sh("curl https://repo.anaconda.com/miniconda/Miniconda-2.0.3-MacOSX-x86.sh -o installer.sh")
-                sh("bash installer.sh -b -p ${WORKSPACE}/miniconda3")
-           //   sh("curl -LO https://raw.githubusercontent.com/astroconda/docker-buildsys/master/with_env")
+        //      sh("curl https://repo.anaconda.com/miniconda/Miniconda-2.0.3-MacOSX-x86.sh -o installer.sh")
+        //      sh("bash installer.sh -b -p ${WORKSPACE}/miniconda3")
+        //      sh("curl -LO https://raw.githubusercontent.com/astroconda/docker-buildsys/master/with_env")
+
+
+
+                sh("wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/miniconda.sh")
+                sh("bash ~/miniconda.sh -b -p $HOME/miniconda")
+
+
                 sh("chmod +x with_env")
                 sh("conda env create -n ${env_name} -f environment.yml")
                 }
@@ -33,3 +40,8 @@ pipeline {
 
                }
                }
+
+
+
+sh("wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/miniconda.sh")
+sh("bash ~/miniconda.sh -b -p $HOME/miniconda")
