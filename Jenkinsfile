@@ -35,11 +35,11 @@ pipeline {
                 sh("chmod +x with_env")
                 sh("conda env create -n ${env_name} -f environment.yml")
                 }
-               }
+                }
 
                stage('Install') {
                steps {
-               sh("./with_env -n ${env_name} pip install -e .") }}
+               sh("./with_env -n ${env_name} pip install -f .") }}
 
                }
                }
