@@ -1,7 +1,6 @@
 pipeline {
     agent any
-
-    environment {
+      environment {
 
        HOME="${WORKSPACE}"
        MIRAGE_DATA="/ifs/jwst/wit/mirage_data/"
@@ -13,42 +12,23 @@ pipeline {
        XDG_CACHE_HOME="${WORKSPACE}/tmp/.cache"
 
    }
-
-
-
-
-    stages {
-        stage('Checkout Code') {
+      stages{
+        stage('Setup') {
             steps {
-                // Get some code from a GitHub repository
-                git 'https://github.com/spacetelescope/simcal.git'
-
-
-
-                stage('Run Unit Test Cases') {
-                    steps {
-                        bat "mvn clean test"
-
-                    }
-                stage('Build Code') {
-                    steps {
-                        junit '**/target/surefire-reports/TEST-*.xml'
-                    }
+                deleteDir()
+                checkout scm
+           //   sh "mvn install"
+                sh("mkdir -p tmp")
+                sh("curl https://repo.anaconda.com/miniconda/Miniconda-2.0.3-MacOSX-x86.sh -o installer.sh")
+                sh("bash installer.sh -b -p ${WORKSPACE}/miniconda3")
+           //   sh("curl -LO https://raw.githubusercontent.com/astroconda/docker-buildsys/master/with_env")
+                sh("chmod +x with_env")
+                sh("conda env create -n ${env_name} -f environment.yml")
                 }
+               }
 
-                stage('Build Code'){
-                    steps {
-                        bat "mvn package -DskipTests=true"
-                    }
-                }
-                stage('Archive Results')
-                {
-                    steps {
-                        archiveArtifacts 'target/*.war'
-                    }
-        }
-     }
-  }
-}
-}
-}
+               stage('Install') {
+               steps {
+               sh("./with_env -n ${env_name} pip install -e .") }}
+
+               }
