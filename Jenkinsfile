@@ -26,49 +26,13 @@ pipeline {
 
 
                 sh("wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/miniconda.sh")
-        //      sh("bash ~/miniconda.sh -b -p $HOME/miniconda")
+                sh("bash ~/miniconda.sh -b -p $HOME/miniconda")
 
 
-                sh("bash ~/miniconda.sh -b -h $HOME/miniconda")
-
-
-
-
-
-
-
-
-
-
+        //      sh("bash ~/miniconda.sh -b -h $HOME/miniconda")
                 sh("chmod +x with_env")
+
           //    sh("conda env create -n ${env_name} -f environment.yml")
-
-
-
-                sh("conda env create -n ${env_name} -b environment.yml")
-
-                sh("conda env create -n ${env_name} -f environment.yml")
-
-                sh("conda env create -n ${env_name} -h environment.yml")
-
-                sh("conda env create -n ${env_name} -p environment.yml")
-
-                sh("conda env create -n ${env_name} -s environment.yml")
-
-                sh("conda env create -n ${env_name} -u environment.yml")
-
-                sh("conda env create -n ${env_name} -t environment.yml")
-
-
-
-
-
-
-
-
-
-
-
 
                 }
                 }
