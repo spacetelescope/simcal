@@ -25,8 +25,8 @@ pipeline {
 
 
 
-                sh("wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O ~/miniconda.sh")
-                sh("bash ~/miniconda.sh -b -p ${WORKSPACE}/miniconda")
+                sh("curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o miniconda.sh")
+                sh("bash miniconda.sh -b -p ${WORKSPACE}/miniconda3")
 
 
         //      sh("bash ~/miniconda.sh -b -h $HOME/miniconda")
