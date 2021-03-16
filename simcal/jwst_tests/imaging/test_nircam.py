@@ -47,7 +47,7 @@ def test_nircam_imaging(_jail):
                                 simdata_output_dir= output_dir,
                                 datatype= datatype)
 
-
+    get_bigdata()
     uncal_files = create_simulations(yfiles, output_dir)
     print('\n\n uncal files', uncal_files, '\n\n')
     rate_files = [ ]
