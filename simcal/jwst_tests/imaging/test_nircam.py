@@ -6,6 +6,15 @@ from mirage.yaml import yaml_generator
 from jwst.pipeline import Detector1Pipeline
 from jwst.pipeline import Image2Pipeline
 
+from ci_watson.artifactory_helpers  import (check_url, get_bigdata_root,
+    get_bigdata,
+    BigdataError,
+)
+
+
+data_root = get_bigdata_root()
+
+import shutil
 import pytest
 from astropy.io.fits.diff import FITSDiff
 
@@ -17,7 +26,19 @@ os.environ["CRDS_SERVER_URL"] = "https: //jwst-crds.stsci.edu"
 
 
 xml_file= 'imaging_example_data/example_imaging_program.xml'
+
+xml_file_src= get_bigdata("jwst/nircam/image/example_imaging_program.xml")
+
 pointing_file= 'imaging_example_data/example_imaging_program.pointing'
+
+pointing_file_src= get_bigdata("jwst/nircam/image/example_imaging_program.pointing")
+
+shutil.copy(xml_file_src, "imaging_example_data")
+shutil.copy(pointing_file_src, "imaging_example_data")
+
+
+
+
 catalogs= {'GOODS-S-FIELD':
            {'point_source':  'imaging_example_data/ptsrc_catalog.cat'}}
 cosmic_rays= {'library':  'SUNMAX', 'scale': 1.0}
@@ -34,6 +55,7 @@ datatype= 'raw'
 
 
 def test_nircam_imaging(_jail):
+
     yfiles = run_yaml_generator(xml_file= xml_file,
                                 pointing_file= pointing_file,
                                 catalogs= catalogs,
