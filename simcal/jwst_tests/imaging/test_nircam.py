@@ -25,22 +25,6 @@ os.environ["CRDS_DATA"] = "/Users/snweke/mirage/crds_cache"
 os.environ["CRDS_SERVER_URL"] = "https: //jwst-crds.stsci.edu"
 
 
-xml_file= 'imaging_example_data/example_imaging_program.xml'
-
-xml_file_src= get_bigdata("jwst/nircam/image/example_imaging_program.xml")
-
-pointing_file= 'imaging_example_data/example_imaging_program.pointing'
-
-pointing_file_src= get_bigdata("jwst/nircam/image/example_imaging_program.pointing")
-
-shutil.copy(xml_file_src, "imaging_example_data")
-shutil.copy(pointing_file_src, "imaging_example_data")
-
-
-
-
-catalogs= {'GOODS-S-FIELD':
-           {'point_source':  'imaging_example_data/ptsrc_catalog.cat'}}
 cosmic_rays= {'library':  'SUNMAX', 'scale': 1.0}
 background= 'medium'
 pav3= 12.5
@@ -48,13 +32,20 @@ roll_angle= pav3
 dates= '2022-10-31'
 reffile_defaults= 'crds'
 verbose= True
-#output_dir= '.'
-output_dir= './output_imaging_data/'
-simulation_dir= './imaging_example_data/'
+output_dir= '.'
+simulation_dir= '.'
 datatype= 'raw'
 
 
 def test_nircam_imaging(_jail):
+
+    pointing_file= get_bigdata("jwst/nircam/image/example_imaging_program.pointing")
+    xml_file= get_bigdata("jwst/nircam/image/example_imaging_program.xml")
+    catalog_file= get_bigdata("jwst/nircam/image/ptsrc_catalog.cat")
+
+    catalogs= {'GOODS-S-FIELD':
+               {'point_source': catalog_file}}
+    
 
     yfiles = run_yaml_generator(xml_file= xml_file,
                                 pointing_file= pointing_file,
@@ -68,7 +59,6 @@ def test_nircam_imaging(_jail):
                                 output_dir= output_dir,
                                 simdata_output_dir= output_dir,
                                 datatype= datatype)
-
 
     uncal_files = create_simulations(yfiles, output_dir)
     print('\n\n uncal files', uncal_files, '\n\n')
