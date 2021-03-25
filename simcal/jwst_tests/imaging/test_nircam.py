@@ -6,18 +6,10 @@ from mirage.yaml import yaml_generator
 from jwst.pipeline import Detector1Pipeline
 from jwst.pipeline import Image2Pipeline
 
-from ci_watson.artifactory_helpers  import (check_url, get_bigdata_root,
-    get_bigdata,
-    BigdataError,
-)
+from ci_watson.artifactory_helpers  import (get_bigdata)
 
-
-data_root = get_bigdata_root()
-
-import shutil
 import pytest
 from astropy.io.fits.diff import FITSDiff
-
 
 
 os.environ["MIRAGE_DATA"] = "/ifs/jwst/wit/mirage_data/"
@@ -45,7 +37,7 @@ def test_nircam_imaging(_jail):
 
     catalogs= {'GOODS-S-FIELD':
                {'point_source': catalog_file}}
-    
+
 
     yfiles = run_yaml_generator(xml_file= xml_file,
                                 pointing_file= pointing_file,
