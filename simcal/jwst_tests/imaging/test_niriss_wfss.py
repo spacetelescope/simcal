@@ -11,6 +11,7 @@ from astropy.io import fits
 
 
 import yaml
+import io
 import astropy.units as u
 import pytest
 
@@ -56,9 +57,14 @@ def test_niriss_wfss():
 
     print("Debug")
 
+
     yaml_files = glob(os.path.join(yam.output_dir,"jw*.yaml"))
     yaml_WFSS_files = []
     yaml_imaging_files = []
+
+
+
+    print(yaml_files)
 
     for f in yaml_files:
         my_dict = yaml.safe_load(open(f))
@@ -67,14 +73,24 @@ def test_niriss_wfss():
         if my_dict["Inst"]["mode"]=="imaging":
             yaml_imaging_files.append(f)
 
-    print("WFSS files:", yaml_WFSS_files)
-    print("Imaging files:", len(yaml_imaging_files))
+            print("WFSS files:", yaml_WFSS_files)
+            print("Imaging files:", len(yaml_imaging_files))
 
 
-    with open(yaml_WFSS_files[0], 'r') as infile:
-        parameters = yaml.load(infile)
+            with open(yaml_WFSS_files[0], 'r') as infile:
+                parameters = yaml.load(infile)
 
-        print(yaml_WFSS_files[0], "Name of WFSS file")
+                parameters['Reffiles']['astrometric'] = 'None'
+                parameters['psf_wing_threshold_file'] = 'config'
+                modified_file = f.replace('.yaml', '_mod.yaml')
+                with io.open(modified_file, 'w') as outfile:
+                    yaml.dump(parameters, outfile, default_flow_style=False)
+
+                    m =imaging_simulator.ImgSim()
+                    m.paramfile = str(modified_file)
+                    m.create()
+
+                    print(yaml_WFSS_files[0], "Name of WFSS file")
 
     for key in parameters:
         for level2_key in parameters[key]:
@@ -85,3 +101,4 @@ def test_niriss_wfss():
                               extrapolate_SED=True, disp_seed_filename=None, source_stamps_file=None,
                               SED_file=None,SED_normalizing_catalog_column=None, SED_dict=None,
                               create_continuum_seds=False)
+        m.create()
