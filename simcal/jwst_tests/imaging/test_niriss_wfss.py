@@ -82,25 +82,20 @@ def test_niriss_wfss():
     with open(yaml_WFSS_files[0], 'r') as infile:
         parameters = yaml.load(infile)
 
-        #parameters['Reffiles']['astrometric'] = 'None'
-        #parameters['psf_wing_threshold_file'] = 'config'
-        #modified_file = f.replace('.yaml', '_mod.yaml')
-        #with io.open(modified_file, 'w') as outfile:
-        #    yaml.dump(parameters, outfile, default_flow_style=False)
-
-        #    m =imaging_simulator.ImgSim()
-        #    m.paramfile = str(modified_file)
-        #    m.create()
-
         print(yaml_WFSS_files[0], "Name of WFSS file")
 
     for key in parameters:
         for level2_key in parameters[key]:
             print('{}: {}: {}:'.format(key, level2_key, parameters[key][level2_key]))
 
+def WFFSS_Simulator(paramfiles):
     for f in yaml_files:
-        m = wfss_simulator.WFSSSim(yaml_imaging_files[0], override_dark=None, save_dispersed_seed=True,
-                              extrapolate_SED=True, disp_seed_filename=None, source_stamps_file=None,
-                              SED_file=None,SED_normalizing_catalog_column=None, SED_dict=None,
-                              create_continuum_seds=False)
-        m.create()
+        wfss_img_sim = wfss_simulator.WFSSSim()
+        wfss_img_sim.paramfile = f
+        wfss_img_sim.create()
+
+    m = wfss_simulator.WFSSSim(yaml_WFSS_files[0], override_dark=None, save_dispersed_seed=True,
+                      extrapolate_SED=True, disp_seed_filename=None, source_stamps_file=None,
+                      SED_file=None,SED_normalizing_catalog_column=None, SED_dict=None,
+                      create_continuum_seds=False)
+    m.create()
