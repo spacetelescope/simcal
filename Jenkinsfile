@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label 'macos' }
        environment {
         HOME="${WORKSPACE}"
         MIRAGE_DATA="/ifs/jwst/wit/mirage_data/"
@@ -11,7 +11,7 @@ pipeline {
         XDG_CACHE_HOME="${WORKSPACE}/tmp/.cache"
     }
 
-    stages{
+    stages {
     	  stage('Setup') {
             steps {
                 deleteDir()
