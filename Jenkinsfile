@@ -16,9 +16,9 @@ pipeline {
             steps {
                 deleteDir()
                 checkout scm
-
-				sh("curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o installer.sh")
+                sh("curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -o installer.sh")
                 sh("bash installer.sh -b -p ${WORKSPACE}/miniconda3")
+		sh("conda init bash")
                 sh("conda create -n simcal python -y")
             }
         }
