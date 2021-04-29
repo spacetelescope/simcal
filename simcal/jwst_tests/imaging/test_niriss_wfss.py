@@ -33,15 +33,15 @@ def test_niriss_wfss():
     dates = '2022-10-31'
     datatype = 'linear, raw'
 
+    #pointing_file= get_bigdata("jwst/niriss/wfss/niriss_wfss_example.pointing")
+    #xml_file= get_bigdata("jwst/niriss/wfss/niriss_wfss_example.xml")
+    #catalog_file= get_bigdata("jwst/niriss/wfss/point_sources.cat")
 
-
-
-    pointing_file= get_bigdata("jwst/niriss/wfss/niriss_wfss_example.pointing")
-    xml_file= get_bigdata("jwst/niriss/wfss/niriss_wfss_example.xml")
-    catalog_file= get_bigdata("jwst/niriss/wfss/point_sources.cat")
+    pointing_file= '/Users/snweke/mirage/examples/wfss_example_data/niriss_wfss_example.pointing'
+    xml_file= '/Users/snweke/mirage/examples/wfss_example_data/niriss_wfss_example.xml'
+    catalog_file= '/Users/snweke/mirage/examples/wfss_example_data/point_sources.cat'
     catalogs= {'GOODS-S-FIELD':
               {'point_source': catalog_file}}
-
 
     yam= yaml_generator.SimInput(xml_file, pointing_file=pointing_file,
                           catalogs=catalogs, cosmic_rays=cosmic_rays,
@@ -66,6 +66,8 @@ def test_niriss_wfss():
 
     print(yaml_files)
 
+    print(yam.output_dir, "THIS IS YAML.OUTPUTDIR")
+
     for f in yaml_files:
         my_dict = yaml.safe_load(open(f))
         if my_dict["Inst"]["mode"]=="wfss":
@@ -73,24 +75,24 @@ def test_niriss_wfss():
         if my_dict["Inst"]["mode"]=="imaging":
             yaml_imaging_files.append(f)
 
-            print("WFSS files:", yaml_WFSS_files)
-            print("Imaging files:", len(yaml_imaging_files))
+    print("WFSS files:", yaml_WFSS_files)
+    print("Imaging files:", len(yaml_imaging_files))
 
 
-            with open(yaml_WFSS_files[0], 'r') as infile:
-                parameters = yaml.load(infile)
+    with open(yaml_WFSS_files[0], 'r') as infile:
+        parameters = yaml.load(infile)
 
-                parameters['Reffiles']['astrometric'] = 'None'
-                parameters['psf_wing_threshold_file'] = 'config'
-                modified_file = f.replace('.yaml', '_mod.yaml')
-                with io.open(modified_file, 'w') as outfile:
-                    yaml.dump(parameters, outfile, default_flow_style=False)
+        #parameters['Reffiles']['astrometric'] = 'None'
+        #parameters['psf_wing_threshold_file'] = 'config'
+        #modified_file = f.replace('.yaml', '_mod.yaml')
+        #with io.open(modified_file, 'w') as outfile:
+        #    yaml.dump(parameters, outfile, default_flow_style=False)
 
-                    m =imaging_simulator.ImgSim()
-                    m.paramfile = str(modified_file)
-                    m.create()
+        #    m =imaging_simulator.ImgSim()
+        #    m.paramfile = str(modified_file)
+        #    m.create()
 
-                    print(yaml_WFSS_files[0], "Name of WFSS file")
+        print(yaml_WFSS_files[0], "Name of WFSS file")
 
     for key in parameters:
         for level2_key in parameters[key]:
