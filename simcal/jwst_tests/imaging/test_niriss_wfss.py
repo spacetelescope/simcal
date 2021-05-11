@@ -40,8 +40,7 @@ def test_niriss_wfss():
     pointing_file= '/Users/snweke/mirage/examples/wfss_example_data/niriss_wfss_example.pointing'
     xml_file= '/Users/snweke/mirage/examples/wfss_example_data/niriss_wfss_example.xml'
     catalog_file= '/Users/snweke/mirage/examples/wfss_example_data/point_sources.cat'
-    catalogs= {'GOODS-S-FIELD':
-              {'point_source': catalog_file}}
+    catalogs= {'point_source': catalog_file}
 
     yam= yaml_generator.SimInput(xml_file, pointing_file=pointing_file,
                           catalogs=catalogs, cosmic_rays=cosmic_rays,
@@ -61,10 +60,8 @@ def test_niriss_wfss():
     yaml_files = glob(os.path.join(yam.output_dir,"jw*.yaml"))
     yaml_WFSS_files = []
     yaml_imaging_files = []
-
-
-
     print(yaml_files)
+
 
     print(yam.output_dir, "THIS IS YAML.OUTPUTDIR")
 
@@ -78,24 +75,15 @@ def test_niriss_wfss():
     print("WFSS files:", yaml_WFSS_files)
     print("Imaging files:", len(yaml_imaging_files))
 
-
-    with open(yaml_WFSS_files[0], 'r') as infile:
-        parameters = yaml.load(infile)
-
-        print(yaml_WFSS_files[0], "Name of WFSS file")
-
-    for key in parameters:
-        for level2_key in parameters[key]:
-            print('{}: {}: {}:'.format(key, level2_key, parameters[key][level2_key]))
-
-def WFFSS_Simulator(paramfiles):
-    for f in yaml_files:
-        wfss_img_sim = wfss_simulator.WFSSSim()
-        wfss_img_sim.paramfile = f
+    for f in yaml_WFSS_files:
+        wfss_img_sim = wfss_simulator.WFSSSim(f, override_dark=None, save_dispersed_seed=True,
+                       extrapolate_SED=True, disp_seed_filename=None, source_stamps_file=None,
+                       SED_file=None, SED_normalizing_catalog_column=None, SED_dict=None,
+                       create_continuum_seds=True)
         wfss_img_sim.create()
 
-    m = wfss_simulator.WFSSSim(yaml_WFSS_files[0], override_dark=None, save_dispersed_seed=True,
-                      extrapolate_SED=True, disp_seed_filename=None, source_stamps_file=None,
-                      SED_file=None,SED_normalizing_catalog_column=None, SED_dict=None,
-                      create_continuum_seds=False)
-    m.create()
+    for yaml_imaging_file in yaml_imaging_files[0:1]:
+        print("Imaging simulation for {}".format(yaml_imaging_file))
+        img_sim = imaging_simulator.ImgSim()
+        img_sim.paramfile = yaml_imaging_file
+        img_sim.create()
