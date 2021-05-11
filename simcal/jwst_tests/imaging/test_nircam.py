@@ -6,7 +6,7 @@ from mirage.yaml import yaml_generator
 from jwst.pipeline import Detector1Pipeline
 from jwst.pipeline import Image2Pipeline
 
-from ci_watson.artifactory_helpers  import (get_bigdata)
+from ci_watson.artifactory_helpers  import get_bigdata
 
 import pytest
 from astropy.io.fits.diff import FITSDiff
