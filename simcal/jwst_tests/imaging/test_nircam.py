@@ -12,11 +12,6 @@ import pytest
 from astropy.io.fits.diff import FITSDiff
 
 
-os.environ["MIRAGE_DATA"] = "/ifs/jwst/wit/mirage_data/"
-os.environ["CRDS_DATA"] = "/Users/snweke/mirage/crds_cache"
-os.environ["CRDS_SERVER_URL"] = "https: //jwst-crds.stsci.edu"
-
-
 cosmic_rays= {'library':  'SUNMAX', 'scale': 1.0}
 background= 'medium'
 pav3= 12.5
