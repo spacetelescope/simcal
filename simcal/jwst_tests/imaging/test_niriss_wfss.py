@@ -12,7 +12,7 @@ from astropy.io import fits
 
 import yaml
 import io
-import astropy.units as u
+#import astropy.units as u
 import pytest
 
 os.environ["MIRAGE_DATA"] = "/ifs/jwst/wit/mirage_data/"
