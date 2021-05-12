@@ -4,6 +4,8 @@ pipeline {
         HOME="${WORKSPACE}"
         MIRAGE_DATA="/ifs/jwst/wit/mirage_data/"
         TEST_BIGDATA="https://bytesalad.stsci.edu/artifactory/simcal"
+        CRDS_SERVER_URL = "https://jwst-crds.stsci.edu"
+        CRDS_PATH = "${WORKSPACE}/crds_cache"
         PATH ="${WORKSPACE}/miniconda3/bin:${PATH}"
         TMPDIR="${WORKSPACE}/tmp"
         XDG_CACHE_HOME="${WORKSPACE}/tmp/.cache"
@@ -36,7 +38,7 @@ pipeline {
                 sh("""#!/usr/bin/env bash
                       source $WORKSPACE/miniconda3/etc/profile.d/conda.sh
                       conda activate simcal
-                      pytest simcal
+                      pytest --basetemp=test_outputs simcal
                    """
                 )
             }
