@@ -15,13 +15,8 @@ import io
 import astropy.units as u
 import pytest
 
-os.environ["MIRAGE_DATA"] = "/ifs/jwst/wit/mirage_data/"
-os.environ["CRDS_PATH"] = os.path.join(os.path.expandvars('$HOME'), "crds_cache")
-os.environ["CDRS_SERVER_URL"]="https://jwst-cdrs.stsci.edu"
 
-
-
-def test_niriss_wfss():
+def test_niriss_wfss(_jail):
 
     yaml_output_dir = '.'
     simulations_output_dir = '.'
@@ -33,13 +28,10 @@ def test_niriss_wfss():
     dates = '2022-10-31'
     datatype = 'linear, raw'
 
-    #pointing_file= get_bigdata("jwst/niriss/wfss/niriss_wfss_example.pointing")
-    #xml_file= get_bigdata("jwst/niriss/wfss/niriss_wfss_example.xml")
-    #catalog_file= get_bigdata("jwst/niriss/wfss/point_sources.cat")
+    pointing_file= get_bigdata("jwst/niriss/wfss/niriss_wfss_example.pointing")
+    xml_file= get_bigdata("jwst/niriss/wfss/niriss_wfss_example.xml")
+    catalog_file= get_bigdata("jwst/niriss/wfss/point_sources.cat")
 
-    pointing_file= '/Users/snweke/mirage/examples/wfss_example_data/niriss_wfss_example.pointing'
-    xml_file= '/Users/snweke/mirage/examples/wfss_example_data/niriss_wfss_example.xml'
-    catalog_file= '/Users/snweke/mirage/examples/wfss_example_data/point_sources.cat'
     catalogs= {'point_source': catalog_file}
 
     yam= yaml_generator.SimInput(xml_file, pointing_file=pointing_file,
@@ -54,16 +46,9 @@ def test_niriss_wfss():
 
     yam.create_inputs()
 
-    print("Debug")
-
-
     yaml_files = glob(os.path.join(yam.output_dir,"jw*.yaml"))
     yaml_WFSS_files = []
     yaml_imaging_files = []
-    print(yaml_files)
-
-
-    print(yam.output_dir, "THIS IS YAML.OUTPUTDIR")
 
     for f in yaml_files:
         my_dict = yaml.safe_load(open(f))
@@ -82,7 +67,7 @@ def test_niriss_wfss():
                        create_continuum_seds=True)
         wfss_img_sim.create()
 
-    for yaml_imaging_file in yaml_imaging_files[0:1]:
+    for yaml_imaging_file in yaml_imaging_files:
         print("Imaging simulation for {}".format(yaml_imaging_file))
         img_sim = imaging_simulator.ImgSim()
         img_sim.paramfile = yaml_imaging_file

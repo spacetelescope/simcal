@@ -4,8 +4,6 @@ pipeline {
         HOME="${WORKSPACE}"
         MIRAGE_DATA="/ifs/jwst/wit/mirage_data/"
         TEST_BIGDATA="https://bytesalad.stsci.edu/artifactory/simcal"
-        CRDS_SERVER_URL = "https://jwst-crds.stsci.edu"
-        CRDS_PATH = "/tmp/crds_cache"
         PATH ="${WORKSPACE}/miniconda3/bin:${PATH}"
         TMPDIR="${WORKSPACE}/tmp"
         XDG_CACHE_HOME="${WORKSPACE}/tmp/.cache"
